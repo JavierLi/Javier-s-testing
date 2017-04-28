@@ -5,7 +5,6 @@ var guyHeight = 90;
 var guyNumFrames = 20;
 var character1;
 var character2;
-var group;
 
 var bullets;
 var fireButton;
@@ -25,6 +24,9 @@ var bulletTime2 = 0;
 
 var bullets2;
 var bullet2;
+
+var nextIdle = "leftIdle";
+
 
 
     MyPlayer = function (game, x, y) {
@@ -130,6 +132,7 @@ function update() {
         directionX = -75;
         directionY = 0;
         angle = 180;
+        nextIdle = "leftIdle"
 
     }
     else if (cursors.right.isDown)
@@ -139,6 +142,8 @@ function update() {
         directionX = 75;
         directionY = 0;
         angle = 0;
+        nextIdle = "rightIdle"
+
     }
     else if (cursors.up.isDown)
     {
@@ -147,6 +152,8 @@ function update() {
         directionX = 0;
         directionY = -75;  
         angle = 270;
+        nextIdle = "upIdle"
+        
     }
     else if (cursors.down.isDown)
     {
@@ -155,25 +162,13 @@ function update() {
         directionX = 0;
         directionY = 75;
         angle = 90;
+        nextIdle = "downIdle"
+
     }
     else
     { 
-        var nextIdle;
+        character1.play(nextIdle);
         
-      if (character1.body.velocity.x < 0)
-            nextIdle = "leftIdle";
-        else if (character1.body.velocity.x > 0)
-            nextIdle = "rightIdle"
-        else if (character1.body.velocity.y < 0)
-            nextIdle = "upIdle"
-        else if(character1.body.velocity.y > 0)
-            nextIdle = "downIdle"
-        else 
-            nextIdle = null ;
-            
-        if (nextIdle != null)
-            character1.play(nextIdle);
-            
         character1.body.velocity.set(0);
         
     }
@@ -224,18 +219,18 @@ function update() {
     }
     else
     {
-       if (character2.body.velocity.x < 0)
-            nextIdle = "leftIdle";
-        else if (character2.body.velocity.x > 0)
-            nextIdle = "rightIdle"
-        else if (character2.body.velocity.y < 0)
-            nextIdle = "upIdle"
-        else if(character2.body.velocity.y > 0)
-            nextIdle = "downIdle"
-        else 
-            nextIdle = null ;
-            
-        if (nextIdle != null)
+//       if (character2.body.velocity.x < 0)
+//            nextIdle = "leftIdle";
+//        else if (character2.body.velocity.x > 0)
+//            nextIdle = "rightIdle"
+//        else if (character2.body.velocity.y < 0)
+//            nextIdle = "upIdle"
+//        else if(character2.body.velocity.y > 0)
+//            nextIdle = "downIdle"
+//        else 
+//            nextIdle = null ;
+//            
+//        if (nextIdle != null)
             character2.play(nextIdle);
             
         character2.body.velocity.set(0);
@@ -281,11 +276,3 @@ function fireBullet2 () {
     }
     
 }
-//
-//function hitC1 (bullet2, character1) {
-//    
-//}
-//
-//function hitC2 (bullet1, character2) {
-//    
-//}
