@@ -11,7 +11,21 @@ var bullets;
 var fireButton;
 var bulletTime = 0;
 var bullet;
-//
+var directionX = -75;
+var directionY = 0;
+var angle = 180;
+
+
+var directionX2 = -75;
+var directionY2 = 0;
+var angle2 = 180;
+
+var fireButton2;
+var bulletTime2 = 0;
+
+var bullets2;
+var bullet2;
+
 
     MyPlayer = function (game, x, y) {
 
@@ -73,58 +87,74 @@ function create() {
         bullets.createMultiple(5, 'bullet', false);
         bullets.setAll('checkWorldBounds', true);
         bullets.setAll('outOfBoundsKill', true);
+    
+        bullets2 = game.add.physicsGroup();
+        bullets2.createMultiple(5, 'bullet', false);
+        bullets2.setAll('checkWorldBounds', true);
+        bullets2.setAll('outOfBoundsKill', true);
+
 
         fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        fireButton2 = game.input.keyboard.addKey(Phaser.Keyboard.F);
+
         cursors = game.input.keyboard.createCursorKeys();
 
 
 
 }   
 
-    var shoot = function() {facedown};
-var prodirection = faceleft;
-//var faceup = bullet.body.velocity.y = 300;
-//var facedown = bullet.body.velocity.y = -300;
-var faceleft = -300;
-var faceright = 300;
 
 
 function update() {
+//    game.physics.arcade.overlap(bullet, character2, hitC2, null, this);
+//    game.physics.arcade.overlap(bullet2, character1, hitC1, null, this); 
+
+
     
     if (fireButton.isDown)
     {
         fireBullet();
     }
-    
+        
+    if (fireButton2.isDown)
+    {
+        fireBullet2();
+    }
+  
     game.physics.arcade.collide(character1);
 
     if (cursors.left.isDown)
     {
         character1.body.velocity.x = -100;
         character1.play('left');
-        prodirection = "faceleft";
+        directionX = -75;
+        directionY = 0;
+        angle = 180;
 
     }
     else if (cursors.right.isDown)
     {
         character1.body.velocity.x = 100;
         character1.play('right');
-        prodirection = "faceright";
-        
+        directionX = 75;
+        directionY = 0;
+        angle = 0;
     }
     else if (cursors.up.isDown)
     {
         character1.body.velocity.y = -100;
         character1.play('up');
-        prodirection = "faceup";
-  
+        directionX = 0;
+        directionY = -75;  
+        angle = 270;
     }
     else if (cursors.down.isDown)
     {
         character1.body.velocity.y = 100;
         character1.play('down');
-        prodirection = "facedown";
-
+        directionX = 0;
+        directionY = 75;
+        angle = 90;
     }
     else
     { 
@@ -164,21 +194,33 @@ function update() {
     {
         character2.body.velocity.x = -100;
         character2.play('left');
+        directionX2 = -75;
+        directionY2 = 0;
+        angle2 = 180;
     }
     else if (d.isDown)
     {
         character2.body.velocity.x = 100;
         character2.play('right');
+        directionX2 = 75;
+        directionY2 = 0;  
+        angle2 = 0;        
     }
     else if (w.isDown)
     {
         character2.body.velocity.y = -100;
         character2.play('up');
+        directionX2 = 0;
+        directionY2 = -75;  
+        angle2 = 270;
     }
     else if (s.isDown)
     {
         character2.body.velocity.y = 100;
         character2.play('down');
+        directionX2 = 0;
+        directionY2 = 75;
+        angle2 = 90;
     }
     else
     {
@@ -211,10 +253,39 @@ function fireBullet () {
         if (bullet)
         {
             bullet.reset(character1.x - 40, character1.y);
-//            shoot();
-            bullet.body.velocity.x = -300;
+            bullet.body.velocity.x = directionX;
+            bullet.body.velocity.y = directionY;
+            bullet.angle = angle;
+
             bulletTime = game.time.time + 250;
         }
     }
     
 }
+
+function fireBullet2 () {
+
+    if (game.time.time > bulletTime2)
+    {
+        bullet2 = bullets2.getFirstExists(false);
+
+        if (bullet2)
+        {
+            bullet2.reset(character2.x - 40, character2.y);
+            bullet2.body.velocity.x = directionX2;
+            bullet2.body.velocity.y = directionY2;
+            bullet2.angle = angle2;
+
+            bulletTime2 = game.time.time + 250;
+        }
+    }
+    
+}
+//
+//function hitC1 (bullet2, character1) {
+//    
+//}
+//
+//function hitC2 (bullet1, character2) {
+//    
+//}
